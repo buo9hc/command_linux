@@ -1,0 +1,128 @@
+Create enviroment:
+	source layers/oe-core/buildtools/environment-setup-x86_64-pokysdk-linux
+	source oe-init-build-env
+Build 1st time:
+	bitbake wrlinux-image-std
+	bitbake <recipe name>
+Build module:
+	bitbake virtual/kernel -c cleansstate -f (if build at next time)
+	bitbake virtual/kernel
+List build state:
+	bitbake iproute2 -c listtasks -f
+Build next time:
+	Build with custom directly in /build source:
+		bitbake virtual/kernel -c do_compile -f
+		bitbake wrlinux-image-std
+	Build with customize is applide through patch file:
+		In Docker: /build/tmp-glibc/work-shared/delta-am62xx/kernel-source		
+			Create patch file: git format-patch -1
+		Copy patch to /layers/meta-ti-am62xx/recipes-kernel/linux/files/
+		Append patch-file into recipes-kernel/linux/files/<driver-name>.scc file:
+			ex: delta-am62x-patch.scc
+		Create patch file for Layer: 
+			cd /layers/meta-ti-am62xx
+			git add recipes-kernel/linux/files/delta-am62x.cfg recipes-kernel/linux/files/ti-am62x-patch.scc recipes-kernel/linux/files/0001-TPM-IC-SLB9673AU.patch
+			Commit and generate patch: 
+				git format-patch -1
+		Clean source and build:
+			bitbake <Image-name> -c cleansstate -f
+		        bitbake <Image-name>
+	Buid Uboot: 
+		bitbake u-boot -c compile -f; bitbake u-boot
+Flash Image:
+	lsblk
+	umount /dev/sda*
+	sudo mkfs.vfat /dev/sda -I
+	cd to build/tmp-glibc/deploy/images/delta-am62xx
+		sudo dd if=wrlinux-image-std-delta-am62xx.wic of=/dev/sda bs=1M
+Debuging:
+	sudo gtkterm
+	select port
+	
+Automatically generate recipes:
+	Docker: Run source command to initial environment
+		source oe-init-build-env
+		devtool add "npm://registry.npmjs.org;package=asap;version=2.0.6"
+	Modify file .bb flowing template: 
+		SUMMARY = "Append Fields append the fields of one small input (Source) to every record of another larger input (Target)"
+		DESCRIPTION = "APPENDFIELD"
+		HOMEPAGE = "https://github.com/LinusU/node-append-field#readme"
+		LICENSE = "MIT"
+		LIC_FILES_CHKSUM = "file://LICENSE;md5=ef0c58b6c734404212fa1b16d54f5635"
+
+		inherit npm
+
+		SRC_URI = " \
+		    npm://registry.npmjs.org/;package=${BPN};version=${PV} \
+		    "
+		NPM_SHRINKWRAP := "${THISDIR}/${PN}/npm-shrinkwrap.json"
+
+		S = "${WORKDIR}/npm"
+	Coppy folder flowing structure:
+		In directory: /A0016-qemuarm64/layers/meta-ti-am62xx/recipes-nodejs
+			recipes-nodejs/
+			└── append-field
+			    ├── append-field
+			    │   └── npm-shrinkwrap.json
+			    └── append-field_2.0.0.bb
+			    
+			    
+			    
+Find file by name:
+	find . -iname "tispl.bin"
+
+
+Create ext4 file:
+	cd <path-ti-psdk>/filesystem
+	dd if=/dev/null of=tisdk-base.ext4 bs=1M seek=300
+	mkfs.ext4 -F tisdk-base.ext4
+	mkdir mnt_fs
+	sudo mount -t ext4 tisdk-base.ext4 mnt_fs
+	cd mnt_fs
+	sudo tar xvf ../tisdk-base-image-am62xx-evm.tar.xz
+	cd ..
+	sudo umount mnt_fs
+Mount disk partition
+	sudo mount -t ext4 /dev/sdb1 disk
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
