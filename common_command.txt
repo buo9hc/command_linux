@@ -84,9 +84,15 @@ Create ext4 file:
 	sudo umount mnt_fs
 Mount disk partition
 	sudo mount -t ext4 /dev/sdb1 disk
-
-
-
+	
+Switch between multipe tool version
+	Create alternative compiler version list (Ex:)
+		sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8
+		sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 8
+		sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+		sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+	
+	sudo update-alternatives --config gcc
 
 
 
