@@ -1,0 +1,44 @@
+Modify the device tree to enable TMP module.
+	Device tree locate in:
+		build/tmp-glibc/work-shared/delta-am62xx/kernel-source/arch/arm64/boot/dts/ti/k3-am62-lp-delta.dts
+	
+	Enable I2C host:
+		dmesg | grep i2c
+			output: "[    1.125806] omap_i2c 20000000.i2c: bus 0 rev0.12 at 400 kHz
+				 [    1.167082] omap_i2c 20010000.i2c: bus 1 rev0.12 at 100 kHz
+				 [    1.174131] omap_i2c 20020000.i2c: bus 2 rev0.12 at 400 kHz
+				"
+		I2C 1 address: "20010000"
+		Output: kernel-source/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+		Find host-name though host address: main_i2c1: i2c@20010000 (host-name:host-address)
+		
+		Check and enable I2C host if needed:
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&main_i2c1_pins_default>;
+			clock-frequency = <100000>;
+		Add I2C node into I2C host: (replace compatible which was find by keyword ""compatible" in "kernel-source/drivers/char/tpm/tpm_tis_i2c.c")
+			&i2c1 {
+				status = "okay";
+
+				tpm: tpm@2e {
+					compatible = "infineon,slb9673";
+					reg = <0x2e>;
+				};
+			};
+		Enable the driver.:
+			Check TMP module sate:
+				zcat /proc/config.gz | grep CONFIG_TCG_TIS_I2C
+				Output:
+					# CONFIG_TCG_TIS_I2C is not set
+					# CONFIG_TCG_TIS_I2C_CR50 is not set
+					# CONFIG_TCG_TIS_I2C_ATMEL is not set
+					CONFIG_TCG_TIS_I2C_INFINEON=y
+					# CONFIG_TCG_TIS_I2C_NUVOTON is not set
+			Enable the driver in "layers/meta-ti-am62xx/recipes-kernel/linux/files/delta-am62x.cfg"
+				CONFIG_TCG_TIS_I2C=y
+Check result: 
+	/sys/bus/i2c/devices
+	dmesg | grep i2c
+	cat /proc/device-tree/model
+	zcat /proc/config.gz | grep CONFIG_TCG_TIS_I2C
