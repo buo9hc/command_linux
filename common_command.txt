@@ -105,6 +105,9 @@ Fix docker error: client version 1.22 is too old. Minimum supported API version 
 Copy screenshot to clipboard
     sh -c "gnome-screenshot -a --file=temp_screenshot.png; wl-copy < temp_screenshot.png; mv temp_screenshot.png $HOME/Pictures/Screenshots/screenshot.$(date +%Y%m%d_%H%M%S).png"
 
+SSH to server:
+    ssh bhoang@10.100.10.3
+    password: 123456
 
 
 
