@@ -3,7 +3,8 @@ Create enviroment:
 	source oe-init-build-env
 Build 1st time:
 	bitbake wrlinux-image-std
-	bitbake <recipe name>
+	bitbake delta-image-am654idk
+	bitbake <name>
 Build module:
 	bitbake virtual/kernel -c cleansstate -f (if build at next time)
 	bitbake virtual/kernel
@@ -109,10 +110,27 @@ SSH to server:
     ssh bhoang@10.100.10.3
     password: 123456
 
+U-boot set-boot part:
+    setenv mmcdev 0
+    setenv bootpart 0
 
+Read file form u-boot:
+    ext4load mmc 1:6 0x82000000 detect_log
+    setexpr.b detect *0x82000000
+    printenv detect
+ 
+Disable metadata checksum:
+    sudo tune2fs -O ^metadata_csum /dev/sdb6
+        
+Write file form u-boot:    
+    mw.b 0x82000000 30
+    ext4write mmc 1:6 0x82000000 /detect_log 1
+    
+Which config will be use:
+    layers/ti-am65x/conf/machine/ti-am65x.inc:UBOOT_MACHINE = "am65x_evm_a53_defconfig"    
+    
 
-
-
+    
 
 
 
