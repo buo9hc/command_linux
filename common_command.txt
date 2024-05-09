@@ -129,6 +129,32 @@ Write file form u-boot:
 Which config will be use:
     layers/ti-am65x/conf/machine/ti-am65x.inc:UBOOT_MACHINE = "am65x_evm_a53_defconfig"    
     
+Template to add file to recipes source: 
+    diff --git a/recipes-bsp/u-boot/u-boot-ti-staging_%.bbappend b/recipes-bsp/u-boot/u-boot-ti-staging_%.bbappend
+    new file mode 100755
+    index 0000000..7d24e08
+    --- /dev/null
+    +++ b/recipes-bsp/u-boot/u-boot-ti-staging_%.bbappend
+    @@ -0,0 +1,5 @@
+    +FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot:"
+    +
+    +SRC_URI:append:ti-am62xx = "\
+    +    file://A0034-enable-spl-mmc-tiny-workaround.cfg \
+    +"
+    diff --git a/recipes-bsp/u-boot/u-boot/A0034-enable-spl-mmc-tiny-workaround.cfg b/recipes-bsp/u-boot/u-boot/A0034-enable-spl-mmc-tiny-workaround.cfg
+    new file mode 100755
+    index 0000000..5d9fc75
+    --- /dev/null
+    +++ b/recipes-bsp/u-boot/u-boot/A0034-enable-spl-mmc-tiny-workaround.cfg
+    @@ -0,0 +1,8 @@
+    +# CONFIG_MMC_UHS_SUPPORT is not set
+    +# CONFIG_SPL_MMC_UHS_SUPPORT is not set
+    +# CONFIG_MMC_HS200_SUPPORT is not set
+    +# CONFIG_SPL_MMC_HS200_SUPPORT is not set
+    +
+    +CONFIG_IDENT_STRING="MMC-WORKAROUND"
+    +CONFIG_SPL_MMC_TINY=y
+
 
     
 
