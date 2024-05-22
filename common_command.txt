@@ -155,9 +155,10 @@ Template to add file to recipes source:
     +CONFIG_IDENT_STRING="MMC-WORKAROUND"
     +CONFIG_SPL_MMC_TINY=y
 
-
-    
-
+Modify a specific commit:
+    git rebase --interactive bbc643cd~
+    git commit --all --amend --no-edit
+    git rebase --continue
 
 
 
