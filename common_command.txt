@@ -160,8 +160,8 @@ Modify a specific commit:
     git commit --all --amend --no-edit
     git rebase --continue
 
-
-
+Read xml file
+    chromium-browser --allow-file-access-from-files test_result.xml
 
 
 
