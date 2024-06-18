@@ -162,6 +162,10 @@ Modify a specific commit:
 
 Read xml file
     chromium-browser --allow-file-access-from-files test_result.xml
+    
+    youtube.com##+js(json-prune, endscreen) 
+    www.youtube.com##.ytp-ce-element
+    www.youtube.com##.ytp-cards-teaser
 
 
 
