@@ -94,6 +94,23 @@ Switch between multipe tool version
 		sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
 	
 	sudo update-alternatives --config gcc
+Install python10 version:
+    # Setup
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install software-properties-common -y
+    sudo add-apt-repository ppa:deadsnakes/ppa -y
+
+    # Python 3.11
+    sudo apt install python3.11
+    sudo apt install python3.11-dev
+    sudo apt install python3.11-distutils
+    sudo apt install python3.11-venv
+
+    # Pip
+    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+    echo 'export PATH=/home/${USER}/.local/bin:$PATH' >> ~/.profile
+    source ~/.profile
+    pip install --upgrade pip
 
 Switch python version
 	sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1 
