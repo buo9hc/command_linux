@@ -32,10 +32,10 @@ Build next time:
 		bitbake u-boot -c compile -f; bitbake u-boot
 Flash Image:
 	lsblk
-	umount /dev/sda*
-	sudo mkfs.vfat /dev/sda -I
+	umount /dev/sdb*
+	sudo mkfs.vfat /dev/sdb -I
 	cd to build/tmp-glibc/deploy/images/delta-am62xx
-		sudo dd if=wrlinux-image-std-ti-am62xx.wic of=/dev/sda bs=1M
+		sudo dd if=wrlinux-image-std-ti-am62xx.wic of=/dev/sdb bs=1M
 Debuging:
 	sudo gtkterm
 	select port
@@ -183,7 +183,10 @@ Read xml file
     youtube.com##+js(json-prune, endscreen) 
     www.youtube.com##.ytp-ce-element
     www.youtube.com##.ytp-cards-teaser
-
+Tar compress file:
+    tar -czvf logs_archive.tar.gz
+Tar extract:
+    pbzip2 -d my_file.bz2    
 
 
 
