@@ -187,7 +187,8 @@ Tar compress file:
     tar -czvf logs_archive.tar.gz
 Tar extract:
     pbzip2 -d my_file.bz2    
-
+git add submodule:
+    git config submodule.common.url https://github.com/GStreamer/common.git
 
 
 
